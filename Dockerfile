@@ -1,5 +1,5 @@
 FROM maven:3.6.3-jdk-8 AS build-env
-WORKDIR /app
+WORKDIR /PetClinic_DockerHub
 
 COPY pom.xml ./
 RUN mvn dependency:go-offline
@@ -11,7 +11,7 @@ RUN mvn package -DfinalName=petclinic
 
 FROM openjdk:8-jre-alpine
 EXPOSE 8080
-WORKDIR /app
+WORKDIR /PetClinic_DockerHub
 
-COPY --from=build-env /app/target/petclinic.jar ./petclinic.jar
-CMD ["/usr/bin/java", "-jar", "/app/petclinic.jar"]
+COPY --from=build-env PetClinic_DockerHub/target/petclinic.jar ./petclinic.jar
+CMD ["/usr/bin/java", "-jar", "/PetClinic_DockerHub/petclinic.jar"]
